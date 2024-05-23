@@ -16,6 +16,7 @@ class UpcomingViewController: UIViewController {
         tableView.register(TitleTableViewCell.self, forCellReuseIdentifier: TitleTableViewCell.identifier)
         return tableView
     }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
