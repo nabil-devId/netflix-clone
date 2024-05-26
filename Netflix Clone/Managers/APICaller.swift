@@ -11,6 +11,8 @@ import Foundation
 struct Constant {
     static let API_KEY = "b2a1cab36ecafd7f9fe36a5239922a48"
     static let BASE_URL = "https://api.themoviedb.org"
+    static let YoutubeAPI_KEY = "AIzaSyByXZ1PbLriDsx-ujAWiYgn-LsesZPl6TE"
+    static let YoutubeBASE_URL = "https://www.googleapis.com/youtube/v3"
 }
 
 enum APIError: Error {
@@ -118,6 +120,23 @@ class APICaller {
             do {
                 let result = try JSONDecoder().decode(TrendingTitleResponse.self, from: data)
                 completion(.success(result.results))
+            } catch {
+                completion(.failure(APIError.failedTogetData))
+            }
+        }
+        task.resume()
+    }
+    
+
+    func getMovie(with query: String, completion: @escaping (Result<VideoElement, Error>) -> Void) {
+        guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { return }
+        guard let url = URL(string: "\(Constant.YoutubeBASE_URL)/search?q=\(query)&key=\(Constant.YoutubeAPI_KEY)") else { return  }
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
+            guard let data = data, error == nil else { return }
+            
+            do {
+                let result = try JSONDecoder().decode(YoutubeSearchResults.self, from: data)
+                completion(.success(result.items[0]))
             } catch {
                 completion(.failure(APIError.failedTogetData))
             }
