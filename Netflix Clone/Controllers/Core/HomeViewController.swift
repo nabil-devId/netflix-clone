@@ -46,6 +46,7 @@ class HomeViewController: UIViewController {
         
         let headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         homeFeedTable.tableHeaderView = headerView
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -78,6 +79,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionTableViewCell.identifier, for: indexPath) as? CollectionTableViewCell else { return UITableViewCell() }
+        cell.delegate = self
         switch indexPath.section {
             case Sections.TrendingMovies.rawValue:
                 APICaller.shared.getTrendingMovies { results in
@@ -154,5 +156,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let defaultOffset = view.safeAreaInsets.top
         let offset = scrollView.contentOffset.y + defaultOffset
         navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))
+    }
+}
+
+
+extension HomeViewController: CollectionTableViewCellDelegate {
+    func CollectionTableViewCellDidTapCell(_ cell: CollectionTableViewCell, model: TitlePreviewViewmodel) {
+        let vc = TitlePreviewViewController()
+        vc.configure(with: model)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
