@@ -60,7 +60,7 @@ class TitlePreviewViewController: UIViewController {
             webview.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
             webview.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             webview.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            webview.heightAnchor.constraint(equalToConstant: 250)
+            webview.heightAnchor.constraint(equalToConstant: 300)
         ]
         
         let titleLabelConstraints = [
@@ -70,6 +70,7 @@ class TitlePreviewViewController: UIViewController {
         
         let overviewLabelConstraints = [
             overviewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
+            overviewLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             overviewLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
         ]
         
